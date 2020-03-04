@@ -1,0 +1,29 @@
+1. Вывести идентификаторы и фамилии тех клиентов, у которых есть один или несколько заказов.
+Select c.c_id,c.c_name from Customer c
+where c_id in(select c_id from Customer 
+intersect 
+select c_id from Sale);
+
+2. Вывести идентификаторы, имена и фамилии сотрудников, продававших товар.
+select sp_id,sp_name from SPERSON 
+where sp_id in( 
+select sp_id from SPERSON 
+intersect 
+select sp_id from SALE);
+
+3. Вывести идентификаторы, имена и фамилии сотрудников, которые ничего не продавали.
+select sp_id,sp_name from SPERSON 
+where sp_id in( 
+select sp_id from SPERSON 
+except 
+select sp_id from SALE);
+
+
+4. Поместить в одну результирующую таблицу два столбца: название таблицы и количество записей для таблиц: SALE, PRODUCT, SPERSON. Выходные данные отсортировать в возрастающем порядке значений второго столбца.
+
+SELECT 'sale' table_name, count(*) count_table from SALE
+union 
+SELECT 'Product' table_name, count(*)  from PRODUCT
+union 
+SELECT 'Sperson' table_name, count(*) from SPERSON
+order by 2;
